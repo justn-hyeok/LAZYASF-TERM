@@ -1,72 +1,49 @@
-# 🐢 LazyASF - 터미널 명령어 단축어 관리자
+# lazyasf - Lazy As F\*\*\* Terminal
 
-> 자주 쓰는 긴 명령어를 짧은 alias로 저장해 터미널 생산성을 극대화하는 CLI 도구
-
----
-
-## 🔧 사전 요구사항
-
-- [Bun](https://bun.sh) 설치 (v1.0.0 이상)
-- zsh 셸 사용 (Oh My Zsh 호환 보장)
+> **복잡한 명령어를 간결하게**.  
+> `LazyASF`는 터미널 alias를 자동으로 등록하고 관리할 수 있도록 돕는 CLI 도구입니다.
 
 ---
 
-## 📦 설치 방법
+## 사전 요구사항
 
-### 📍 npm (Bun 기반 CLI 전역 설치)
+- [Bun](https://bun.sh) (v1.0.0 이상)
+- `zsh` 셸 환경 (Oh My Zsh 완전 호환)
+
+---
+
+## 설치 방법
+
+### Bun (전역 설치)
 
 ```bash
 bun install -g lazyasf
 ```
 
-### 🍺 Homebrew (빌드된 바이너리 설치)
+### Homebrew (Bun 미사용 환경용)
 
 ```bash
 brew tap justn-hyeok/lazyasf-term
 brew install lazyasf
 ```
 
-> Homebrew 설치 시 `bun`이 필요하지 않습니다.
+> Homebrew를 통한 설치는 실행 바이너리를 사용하므로 **Bun이 없어도 작동**합니다.
 
 ---
 
-## 🚀 사용법
+## 명령어
 
-### ▶️ 기본 명령
+| 명령어        | 설명                            |
+| ------------- | ------------------------------- |
+| `lazyasf add` | 새로운 단축어 등록 (대화형 CLI) |
+| `laf add`     | 동일 기능 (축약형 명령어)       |
+| `--verbose`   | 상세 실행 로그 표시             |
 
-```bash
-lazyasf add
-```
-
-> 대화형 CLI를 통해 아래 순서로 진행됩니다:
->
-> 1. 줄이고 싶은 명령어 입력 (예: `git init`)
-> 2. 사용할 단축어 입력 (예: `gii`)
-> 3. alias 추가 여부 확인
+> 모든 명령은 `laf` 또는 `lazyasf` 중 원하는 형태로 사용 가능합니다.
 
 ---
 
-### 🔍 상세 로그 모드
-
-```bash
-lazyasf add --verbose
-```
-
-> `-v` 또는 `--verbose` 옵션으로 실행 로그를 자세히 볼 수 있습니다.
-
----
-
-## 🛠 기능 요약
-
-- ✅ 대화형 CLI 인터페이스
-- ✏️ `.zshrc` 자동 수정 및 백업 (.zshrc.bak)
-- 🧠 입력 유효성 검사 및 포맷 체크
-- ⚠️ 기존 alias가 있으면 자동 덮어쓰기
-- 📄 상세 로그 모드 지원
-
----
-
-## 💡 사용 예시
+## 사용 예시
 
 ```bash
 $ lazyasf add
@@ -85,27 +62,60 @@ $ gii
 
 ---
 
-## ⚠️ 주의사항
+## 주요 기능
 
-- 단축어는 **영문자, 숫자, 언더스코어(\_)**만 사용 가능
-- `.zshrc`에 동일한 alias가 있을 경우 자동 덮어씀
-- alias 반영을 위해 `source ~/.zshrc` 실행 필요
+- 대화형 CLI 기반 단축어 등록
+- `.zshrc` 자동 수정 및 `.zshrc.bak` 백업 저장
+- 기존 alias 자동 덮어쓰기
+- 입력값 유효성 검사
+- 상세 로그 모드 (`--verbose` 지원)
+- 축약 명령어 `laf` 지원
 
 ---
 
-## 🧪 개발 및 실행
+## 주의사항
+
+- 단축어는 **영문자, 숫자, 언더스코어(\_)만 허용**됩니다.
+- 기존 alias가 있는 경우 자동으로 덮어쓰기 처리됩니다.
+- 반영을 위해 `source ~/.zshrc` 명령어 실행이 필요합니다.
+
+---
+
+## 개발 실행
 
 ```bash
+# 의존성 설치
+bun install
+
 # 개발용 실행
 bun run bin/lazyasf.ts add
 
-# 전역 링크 후 테스트
+# 전역 테스트용 링크
 bun link
-lazyasf add
+laf add
 ```
 
 ---
 
-## 📜 라이선스
+## 향후 추가 예정 기능 (TODO)
+
+- [ ] `laf list` – 등록된 alias 목록 출력
+- [ ] `laf remove <alias>` – 등록된 단축어 삭제
+- [ ] `laf export` / `laf import` – 설정 백업 및 복원
+- [ ] `laf test <alias>` – alias 실행 테스트
+- [ ] `laf config` – 기본 설정 경로 및 옵션 관리
+- [ ] `.bashrc`, `fish` 등 다양한 셸 지원
+
+---
+
+## 라이선스
 
 MIT License © 2025 Hwang Junhyeok
+
+---
+
+## 만든 놈
+
+저 혼자 만들었습니다.
+훈수는 깃헙에 연결된 인스타로 해주세요.
+쓴 소리 환영
