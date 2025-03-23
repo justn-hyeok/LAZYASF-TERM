@@ -1,16 +1,20 @@
 {
   "name": "lazyasf",
   "version": "1.0.0",
-  "description": "터미널 명령어 단축어 관리자",
-  "module": "bin/lazyasf.ts",
+  "description": "터미널 명령어 단축어 관리자 CLI",
   "type": "module",
-  "private": false,
   "bin": {
     "lazyasf": "./bin/lazyasf.ts",
     "laf": "./bin/lazyasf.ts"
   },
+  "files": [
+    "bin",
+    "lib",
+    "README.md"
+  ],
   "scripts": {
     "start": "bun run bin/lazyasf.ts",
+    "dev": "bun run bin/lazyasf.ts --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -18,23 +22,27 @@
     "alias",
     "terminal",
     "zsh",
-    "productivity"
+    "productivity",
+    "bun"
   ],
-  "author": "Your Name",
+  "author": "hwangjunhyeok",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/lazyasf.git"
+    "url": "https://github.com/yourusername/lazyasf.git"
   },
   "bugs": {
     "url": "https://github.com/yourusername/lazyasf/issues"
   },
   "homepage": "https://github.com/yourusername/lazyasf#readme",
+  "engines": {
+    "bun": ">=1.0.0"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "commander": "^13.1.0",

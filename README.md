@@ -27,7 +27,7 @@ bun install
 
 # 전역으로 링크
 bun link
-```ㅠㅕ
+```
 
 ## 사용법
 
