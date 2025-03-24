@@ -3,29 +3,27 @@
 > **복잡한 명령어를 간결하게**.  
 > `LazyASF`는 터미널 alias를 자동으로 등록하고 관리할 수 있도록 돕는 CLI 도구입니다.
 
-## 사전 요구사항
+## ✅ 지원 환경
 
-- [Bun](https://bun.sh) (v1.0.0 이상)
-- `zsh` 셸 환경 (Oh My Zsh 완전 호환)
+- macOS / Linux
+- Zsh 셸 환경 (`.zshrc` 기반, Oh My Zsh 완전 호환)
+- [Bun](https://bun.sh) v1.0.0 이상 필수
 
-## 설치 방법
+## 📦 설치 방법
 
-### Bun (전역 설치)
+### Bun 설치 (없을 경우)
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+### lazyasf 설치
 
 ```bash
 bun install -g lazyasf
 ```
 
-### Homebrew (Bun 미사용 환경용)
-
-```bash
-brew tap justn-hyeok/lazyasf-term
-brew install lazyasf
-```
-
-> Homebrew를 통한 설치는 실행 바이너리를 사용하므로 **Bun이 없어도 작동**합니다.
-
-## 명령어
+## 🚀 명령어
 
 | 명령어        | 설명                            |
 | ------------- | ------------------------------- |
@@ -35,7 +33,7 @@ brew install lazyasf
 
 > 모든 명령은 `laf` 또는 `lazyasf` 중 원하는 형태로 사용 가능합니다.
 
-## 사용 예시
+## 🧪 사용 예시
 
 ```bash
 $ lazyasf add
@@ -52,7 +50,7 @@ $ gii
 # → git init 실행됨
 ```
 
-## 주요 기능
+## 🛠 주요 기능
 
 - 대화형 CLI 기반 단축어 등록
 - `.zshrc` 자동 수정 및 `.zshrc.bak` 백업 저장
@@ -61,13 +59,13 @@ $ gii
 - 상세 로그 모드 (`--verbose` 지원)
 - 축약 명령어 `laf` 지원
 
-## 주의사항
+## ⚠️ 주의사항
 
 - 단축어는 **영문자, 숫자, 언더스코어(\_)만 허용**됩니다.
 - 기존 alias가 있는 경우 자동으로 덮어쓰기 처리됩니다.
 - 반영을 위해 `source ~/.zshrc` 명령어 실행이 필요합니다.
 
-## 개발 실행
+## 🧑‍💻 개발 실행
 
 ```bash
 # 의존성 설치
@@ -81,7 +79,7 @@ bun link
 laf add
 ```
 
-## 향후 추가 예정 기능 (TODO)
+## 🧱 향후 추가 예정 기능 (TODO)
 
 - [ ] `laf list` – 등록된 alias 목록 출력
 - [ ] `laf remove <alias>` – 등록된 단축어 삭제
@@ -90,12 +88,12 @@ laf add
 - [ ] `laf config` – 기본 설정 경로 및 옵션 관리
 - [ ] `.bashrc`, `fish` 등 다양한 셸 지원
 
-## 라이선스
+## 🪪 라이선스
 
 MIT License © 2025 Hwang Junhyeok
 
-## 만든 놈
+## 👨‍🔧 만든 놈
 
-저 혼자 만들었습니다.
-훈수는 깃헙에 연결된 인스타로 해주세요.
+저 혼자 만들었습니다.  
+훈수는 깃헙에 연결된 인스타로 해주세요.  
 쓴 소리 환영
