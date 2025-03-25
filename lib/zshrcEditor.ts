@@ -50,7 +50,9 @@ export function addAlias(alias: string, command: string) {
   const alreadyExists = aliasRegex.test(zshrc);
 
   if (alreadyExists) {
-    console.log(`⚠️ 기존 alias '${alias}'가 존재합니다. 덮어씁니다.`);
+    console.log(
+      `\n(｀・ω・´) 기존 alias '${alias}'가 존재합니다. 덮어씁니다.\n`
+    );
     zshrc = zshrc.replace(aliasRegex, newLine);
   } else {
     zshrc += `\n${newLine}`;
@@ -69,8 +71,8 @@ export function addAlias(alias: string, command: string) {
   // 파일 업데이트
   try {
     fs.writeFileSync(PATHS.ZSHRC, zshrc);
-    console.log(`✅ alias '${alias}'가 성공적으로 저장되었습니다.`);
-    console.log(`👉 'source ~/.zshrc' 실행해서 적용하세요.`);
+    console.log(`\n(｀･ω･´)ゞ alias '${alias}'가 성공적으로 저장되었습니다!\n`);
+    console.log(`(・∀・) 'source ~/.zshrc' 실행해서 적용하세요~\n`);
   } catch (error) {
     throw new AppError(
       '파일을 저장하는 중 오류가 발생했습니다.',

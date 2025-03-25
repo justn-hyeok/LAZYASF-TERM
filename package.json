@@ -1,18 +1,18 @@
 {
   "name": "lazyasf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "터미널 명령어 단축어 관리자 CLI",
   "type": "module",
   "bin": {
-    "lazyasf": "./bin/lazyasf.ts",
-    "laf": "./bin/lazyasf.ts"
+    "lazyasf": "./dist/lazyasf.js",
+    "laf": "./dist/lazyasf.js"
   },
   "files": [
-    "bin",
-    "lib",
+    "dist",
     "README.md"
   ],
   "scripts": {
+    "build": "bun build bin/lazyasf.ts --outfile dist/lazyasf.js --target bun",
     "start": "bun run bin/lazyasf.ts",
     "dev": "bun run bin/lazyasf.ts --verbose",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,16 +25,16 @@
     "productivity",
     "bun"
   ],
-  "author": "hwangjunhyeok",
+  "author": "hwangjunhyeok <justn.hyeok@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/lazyasf.git"
+    "url": "https://github.com/dotjhunderbar/lazyasf.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/lazyasf/issues"
+    "url": "https://github.com/dotjhunderbar/lazyasf/issues"
   },
-  "homepage": "https://github.com/yourusername/lazyasf#readme",
+  "homepage": "https://github.com/dotjhunderbar/lazyasf#readme",
   "engines": {
     "bun": ">=1.0.0"
   },
