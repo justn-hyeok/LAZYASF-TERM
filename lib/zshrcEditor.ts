@@ -26,7 +26,7 @@ export function addAlias(alias: string, command: string) {
   }
   if (REGEX.ALIAS_VALIDATION.test(alias)) {
     throw new AppError(
-      'alias는 영문자, 숫자, 언더스코어만 포함할 수 있습니다.',
+      'alias는 영문자, 숫자, 언더스코어, 한글, 마침표만 포함할 수 있습니다.',
       'INVALID_ALIAS'
     );
   }
@@ -79,4 +79,27 @@ export function addAlias(alias: string, command: string) {
       'FILE_WRITE_ERROR'
     );
   }
+}
+
+export function removeAlias(alias: string): void {
+  const aliasRegex = new RegExp(`^alias\\s+${alias}=.*$`, 'm');
+  let zshrc: string;
+
+  try {
+    zshrc = fs.readFileSync(PATHS.ZSHRC, 'utf-8');
+  } catch (error) {
+    throw new AppError(
+      '파일을 읽는 중 오류가 발생했습니다.',
+      'FILE_READ_ERROR'
+    );
+  }
+
+  if (!aliasRegex.test(zshrc)) {
+    console.log(`alias '${alias}'가 존재하지 않습니다.`);
+    return;
+  }
+
+  zshrc = zshrc.replace(aliasRegex, ''); // alias 삭제
+  fs.writeFileSync(PATHS.ZSHRC, zshrc);
+  console.log(`alias '${alias}'가 성공적으로 삭제되었습니다!`);
 }

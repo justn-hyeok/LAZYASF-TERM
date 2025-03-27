@@ -18,7 +18,7 @@ export const PATHS = {
  */
 export const REGEX = {
   ALIAS_PATTERN: '^alias\\s+{alias}=.*$',
-  ALIAS_VALIDATION: /[^a-zA-Z0-9_]/,
+  ALIAS_VALIDATION: /[^a-zA-Z0-9_가-힣.]/, // 한글 유니코드 범위 (가-힣) 추가
 };
 
 /**
