@@ -44,7 +44,8 @@ async function promptUser(): Promise<InquirerResponses> {
     {
       name: 'confirm',
       type: 'confirm',
-      message: PROMPTS.CONFIRM,
+      message: (answers) =>
+        `${PROMPTS.CONFIRM} (${answers.shortAlias}=${answers.fullCmd})`,
       default: true,
     },
   ]);
@@ -63,8 +64,12 @@ function validateFullCommand(input: string): boolean | string {
  */
 function validateShortAlias(input: string): boolean | string {
   if (!input.trim()) return '단축어를 입력해야 합니다.';
-  if (REGEX.ALIAS_VALIDATION.test(input))
+
+  // 정규표현식 로직 수정 - 유효하지 않은 문자가 있을 때 에러 메시지 반환
+  if (!REGEX.ALIAS_VALIDATION.test(input)) {
     return '단축어는 알파벳, 숫자, 언더스코어만 사용할 수 있습니다.';
+  }
+
   return true;
 }
 
@@ -75,7 +80,19 @@ async function handleUserResponses(
   responses: InquirerResponses
 ): Promise<void> {
   if (responses.confirm) {
-    await addAlias(responses.shortAlias, responses.fullCmd);
+    try {
+      await addAlias(responses.shortAlias, responses.fullCmd);
+      console.log(
+        `✅ '${responses.shortAlias}' 단축어가 성공적으로 추가되었습니다.`
+      );
+    } catch (error) {
+      throw new AppError(
+        `단축어 추가 실패: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+        'ALIAS_ADD_ERROR'
+      );
+    }
   } else {
     console.log('❌ 작업이 취소되었습니다.');
   }
@@ -84,9 +101,15 @@ async function handleUserResponses(
 /**
  * 에러 처리
  */
-function handleError(error: unknown): never {
+function handleError(error: unknown): void {
   if (error instanceof AppError) {
-    throw error;
+    console.error(`오류: ${error.message}`);
+    process.exit(1);
+  } else {
+    console.error(
+      '예상치 못한 오류가 발생했습니다:',
+      error instanceof Error ? error.message : String(error)
+    );
+    process.exit(1);
   }
-  throw new AppError('예상치 못한 오류가 발생했습니다.', 'UNEXPECTED_ERROR');
 }
