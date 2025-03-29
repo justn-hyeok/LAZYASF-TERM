@@ -24,7 +24,9 @@ export function addAlias(alias: string, command: string) {
       'INVALID_INPUT'
     );
   }
-  if (REGEX.ALIAS_VALIDATION.test(alias)) {
+  // REGEX.ALIAS_VALIDATION이 허용되는 패턴이라면 NOT 연산자 제거
+  // 허용되지 않는 패턴이라면 NOT 연산자 유지
+  if (!REGEX.ALIAS_VALIDATION.test(alias)) {
     throw new AppError(
       'alias는 영문자, 숫자, 언더스코어, 한글, 마침표만 포함할 수 있습니다.',
       'INVALID_ALIAS'
@@ -44,7 +46,10 @@ export function addAlias(alias: string, command: string) {
   }
 
   const aliasRegex = new RegExp(
-    REGEX.ALIAS_PATTERN.replace('{alias}', alias),
+    REGEX.ALIAS_PATTERN.replace(
+      '{alias}',
+      alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    ),
     'm'
   );
   const alreadyExists = aliasRegex.test(zshrc);
@@ -95,11 +100,73 @@ export function removeAlias(alias: string): void {
   }
 
   if (!aliasRegex.test(zshrc)) {
-    console.log(`alias '${alias}'가 존재하지 않습니다.`);
+    console.log(`\n(・_・) alias '${alias}'가 존재하지 않습니다.\n`);
     return;
   }
 
-  zshrc = zshrc.replace(aliasRegex, ''); // alias 삭제
-  fs.writeFileSync(PATHS.ZSHRC, zshrc);
-  console.log(`alias '${alias}'가 성공적으로 삭제되었습니다!`);
+  // 백업 시도
+  try {
+    fs.copyFileSync(PATHS.ZSHRC, PATHS.BACKUP);
+  } catch (error) {
+    throw new AppError(
+      '백업을 저장하는 중 오류가 발생했습니다.',
+      'BACKUP_ERROR'
+    );
+  }
+
+  // alias 삭제 및 파일 저장
+  try {
+    zshrc = zshrc.replace(aliasRegex, '');
+    fs.writeFileSync(PATHS.ZSHRC, zshrc);
+    console.log(`\n(｀･ω･´)ゞ alias '${alias}'가 성공적으로 삭제되었습니다!\n`);
+    console.log(`(・∀・) 'source ~/.zshrc' 실행해서 적용하세요~\n`);
+  } catch (error) {
+    throw new AppError(
+      '파일을 저장하는 중 오류가 발생했습니다.',
+      'FILE_WRITE_ERROR'
+    );
+  }
+}
+
+/**
+ * .zshrc 파일에서 모든 alias를 추출하여 목록으로 표시하는 함수
+ *
+ * @returns {string[]} 추출된 alias 목록
+ * @throws {AppError} 파일 처리 중 오류 발생 시
+ */
+export function listAliases(): string[] {
+  let zshrc: string;
+
+  try {
+    zshrc = fs.readFileSync(PATHS.ZSHRC, 'utf-8');
+  } catch (error) {
+    throw new AppError(
+      '파일을 읽는 중 오류가 발생했습니다.',
+      'FILE_READ_ERROR'
+    );
+  }
+
+  // 모든 alias 라인 추출 (더 견고한 정규식으로 수정)
+  const aliasPattern = /^alias\s+([^=]+)=['"]?(.*?)['"]?$/gm;
+  const aliases: string[] = [];
+  let match;
+
+  while ((match = aliasPattern.exec(zshrc)) !== null) {
+    const aliasName = match[1].trim();
+    // 작은따옴표와 큰따옴표 모두 처리
+    const command = match[2].trim();
+    aliases.push(`${aliasName} => ${command}`);
+  }
+
+  if (aliases.length === 0) {
+    console.log('\n(・_・) 등록된 alias가 없습니다.\n');
+  } else {
+    console.log('\n(｀･ω･´) 등록된 alias 목록:\n');
+    aliases.forEach((alias, index) => {
+      console.log(`${index + 1}. ${alias}`);
+    });
+    console.log('');
+  }
+
+  return aliases;
 }
