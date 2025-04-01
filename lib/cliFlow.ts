@@ -96,12 +96,14 @@ async function handleUserResponses(
   } else {
     console.log('❌ 작업이 취소되었습니다.');
   }
+  // TODO: alias list, remove 기능 추가
 }
 
 /**
  * 에러 처리
  */
 function handleError(error: unknown): void {
+  // TODO: 에러 로깅 및 리포팅 기능 추가
   if (error instanceof AppError) {
     console.error(`오류: ${error.message}`);
     process.exit(1);
